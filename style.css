@@ -1,0 +1,49 @@
+.btn {
+  min-height: 50px;
+  min-width: 50px;
+  /* flex-wrap: wrap; */
+  /* flex: 1 1 auto; */
+  /* width: 100%; */
+  /* margin: 2px; */
+}
+
+/* #button-grid {
+  display:" "
+} */
+
+button:hover {
+  background-color: rgb(212, 212, 212);
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+button:active {
+  background-color: rgb(196, 196, 196);
+}
+
+#calculator {
+  /* display: flex; */
+  border-style: solid;
+  height: 21vh;
+  max-width: 230px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 75vh;
+}
+
+.delete {
+  display: flex;
+}
+
+#display {
+  border-style: solid;
+  text-align: right;
+}
+
+#clear, #delete {
+  width: 100%;
+}
