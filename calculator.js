@@ -40,62 +40,64 @@ const equals = document.querySelector('#equals');
 let operatorTemp;
 let firstNumber;
 let displayNumber;
-let runningTotal;
+let numberArray = [];
 
 for (let number of numbers) {
   number.addEventListener('click', () => {
-    if (display.textContent == '0') display.textContent = number.textContent;
-    else display.textContent += number.textContent;
-    if (firstNumber === displayNumber) display.textContent = number.textContent;
+    if (numberArray[0] == '0') numberArray.shift();
+    numberArray.push(number.textContent);
+    display.textContent = numberArray.join("");
     displayNumber = +display.textContent;
-    console.log(`displayNumber = ${displayNumber}`);
-    console.log(`displayNumber is a ${typeof displayNumber}`);
   });
 }
 
-
 for (let operator of operators) {
   operator.addEventListener('click', () => {
-    // if (runningTotal) display.textContent = runningTotal;
-    // operatorTemp = operator.textContent;
-    // if (display.textContent.indexOf('.' != display.textContent.length - 1)) firstNumber = +display.textContent;
-    // console.log(`firstNumber = ${firstNumber}`);
-    // if (displayNumber) runningTotal = operate(operatorTemp, firstNumber, displayNumber);
+    if (operatorTemp == '÷' && displayNumber == 0) {
+      alert('Cannot divide by 0!');
+      return;
+    }
+    if (!operatorTemp) firstNumber = displayNumber;
+    else {
+      firstNumber = operate(operatorTemp, firstNumber, displayNumber);
+      display.textContent = firstNumber;
+    }
     operatorTemp = operator.textContent;
-    if (!firstNumber) firstNumber = displayNumber;
-    else firstNumber = operate(operatorTemp, firstNumber, displayNumber);
+    numberArray = ['0'];
   })
 }
 
 equals.addEventListener('click', () => {
-  let result = operate(operatorTemp, firstNumber, displayNumber);
-  displayNumber = result;
-  display.textContent = result;
+  if (operatorTemp == '÷' && displayNumber == 0) {
+    alert('Cannot divide by 0!');
+    return;
+  }
+  if (!operatorTemp) return;
+  displayNumber = operate(operatorTemp, firstNumber, displayNumber);
+  display.textContent = displayNumber;
+  operatorTemp = null;
 })
 
 
 clear.addEventListener('click', () => {
-  display.textContent = 0;
+  numberArray = ['0'];
+  display.textContent = numberArray;
   firstNumber = null;
   displayNumber = null;
-  console.log(`firstNumber = ${firstNumber}`);
-  console.log(`displayNumber = ${displayNumber}`);
+  operatorTemp = null;
 })
 
 del.addEventListener('click', () => {
-  if (display.textContent.length == 1) display.textContent = 0;
-  if (display.textContent == '0') return;
-  let string = display.textContent.toString();
-  display.textContent = string.substring(0, string.length - 1);
-  firstNumber = display.textContent;
-  // console.log(`firstNumber = ${firstNumber}`);
+  if (numberArray.length == 1) numberArray = ['0'];
+  else numberArray.pop();
+  display.textContent = numberArray.join("");
+  displayNumber = +display.textContent;
 })
 
 decimal.addEventListener('click', () => {
-  for (let char of display.textContent) {
+  for (let char of numberArray) {
     if (char === '.') return;
   }
-
-  display.textContent += '.';
-  // if (display.textContent % 1 != 0) return;
+  numberArray.push('.');
+  display.textContent = numberArray.join("");
 })
